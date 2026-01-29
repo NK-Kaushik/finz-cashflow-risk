@@ -74,7 +74,14 @@ def score_business(request: ScoreRequest):
     X = latest[feature_cols]
 
     # ---- Predict ----
-    prob = float(model.predict_proba(X)[0][1])
+    probs = model.predict_proba(X)[0]
+
+     # Handle single-class (DummyClassifier) case
+    if len(probs) == 1:
+         prob = 0.0
+    else:
+          prob = float(probs[1])
+
     tier = risk_tier(prob)
 
     # ---- Drivers + explanation ----
