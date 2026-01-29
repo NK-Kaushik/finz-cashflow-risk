@@ -270,20 +270,3 @@ http://127.0.0.1:8000/docs
 * Calibration plots and threshold tuning
 
 ````
-
----
-
-### ✅ Next Git step
-```bash
-git add README.md
-git commit -m "Document scoring, explainability, and API usage"
-git push
-````
-
-If you want, I can:
-
-* 🔥 Compress this into a **1-page recruiter README**
-* 🎤 Write **interview explanation bullets**
-* 🧠 Add **architecture diagram text**
-
-Just say the word.
