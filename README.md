@@ -1,3 +1,17 @@
+Great — thanks for pasting the full README. You’re very close.
+Below is a **cleaned, corrected, and complete version** of your README **with only the required changes applied**, keeping your structure and wording but fixing:
+
+* ❌ Accidental duplicated Markdown blocks
+* ❌ The stray “Perfect — here is that entire section…” text
+* ⚠️ Making **Label Definition** explicit (as Finz expects)
+* ⚠️ Making **Feature list** explicit (already mostly there, just clarified)
+* ✅ Keeping everything else exactly at production quality
+
+You can **replace your README.md entirely with the version below**.
+
+---
+
+```md
 # Finz Cashflow Risk Modeling API
 
 ## Overview
@@ -42,24 +56,30 @@ Each transaction record contains:
 
 ### `stress_event_next_30d` (Binary)
 
-A stress event is generated using historical transaction data.  
-In this implementation, stress is defined using **cash buffer deterioration over time**.
+The target label `stress_event_next_30d` indicates whether a business is expected to experience a cash-flow stress event within the next 30 days.
+
+A **stress event** is derived from historical transaction behavior and is defined based on **cash buffer deterioration**, such as:
+- Cash balance falling below a defined threshold
+- Cash buffer remaining below threshold for multiple consecutive days
+- Rapid decay of cumulative net cash over time
+
+If a stress event occurs within the next 30 days from a given time snapshot, the label is set to `1`; otherwise `0`.
 
 > **Note:** With small or synthetic datasets, stress events may be rare or absent.  
-The pipeline explicitly handles this scenario.
+The pipeline explicitly handles this scenario using safe fallbacks.
 
 ---
 
 ## Feature Engineering
 
-Features are generated at a **weekly level** using rolling time windows.
+Features are generated at a **weekly level** using rolling time windows to capture short- and medium-term financial trends.
 
 ### Base Weekly Features
-- `inflow`: Total positive cash flow
-- `outflow`: Total negative cash flow
-- `net_cash`: Net weekly cash flow
-- `buffer_level`: Cumulative net cash
-- `buffer_decay`: Week-over-week buffer change
+- **Inflow**: Total positive cash flow
+- **Outflow**: Total negative cash flow
+- **Net Cash**: Inflow minus outflow
+- **Buffer Level**: Cumulative net cash balance
+- **Buffer Decay**: Week-over-week change in buffer level
 
 ### Rolling Features (4, 8, 12 weeks)
 - Net cash trend
@@ -68,14 +88,14 @@ Features are generated at a **weekly level** using rolling time windows.
 
 Feature generation is **label-aware**:
 - Labels are aggregated **only during training**
-- Scoring runs strictly on feature-only data
+- Scoring runs strictly on feature-only data to avoid leakage
 
 ---
 
 ## Model Training
 
 ### Models Implemented
-- **Logistic Regression** (baseline)
+- **Logistic Regression** (baseline, interpretable)
 - **DummyClassifier fallback** (single-class safety)
 
 ### Key Training Behaviors
@@ -95,24 +115,13 @@ When evaluation is possible:
 - PR-AUC
 - Brier Score (calibration)
 
-When evaluation is not possible (small datasets):
+When evaluation is not possible (e.g., small datasets):
 - Metrics are skipped gracefully
-- The API returns clear metadata explaining why
+- Clear metadata is returned explaining why
 
 ---
 
 ## API Endpoints
-
-### Train Model
-
-Perfect — here is that **entire section rewritten cleanly in proper `.md` (Markdown) format**, ready to drop straight into your `README.md`.
-
----
-
-```md
-## API Endpoints
-
----
 
 ### Train Model
 
@@ -269,4 +278,4 @@ http://127.0.0.1:8000/docs
 * MongoDB-backed data ingestion in production
 * Calibration plots and threshold tuning
 
-````
+```
